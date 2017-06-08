@@ -1,23 +1,32 @@
 define(function(){
+    return function(cvsId,shotDivName,clientX,clientY){
+        var outter = document.getElementById(shotDivName);
+        if(document.getElementById(cvsId) == undefined){
+            var cvs = document.createElement("canvas");
+            outter.parentNode.appendChild(cvs);
+            cvs.id = cvsId;
+            cvs.style.display = "none";
+        }else{
+            cvs = document.getElementById(cvsId);
+        }
 
 
-  var otu = document.getElementsByClassName("tu")[0],
-      cvs = document.createElement("canvas"),
-      outter = document.getElementById("outter");
+        html2canvas(outter,{
+          canvas: cvs,
+        });
 
-  outter.parentNode.appendChild(cvs);
-  cvs.id = "theCvs";
-  cvs.style.display = "none";
+        var context = cvs.getContext("2d");
 
-  var context = cvs.getContext("2d");//2d上下文
+        var tmpImg = context.getImageData(clientX-50,clientY-40,100,80),
+            cvsTmp = document.createElement("canvas"),
+            ctxTmp = cvsTmp.getContext("2d"),
+            cvsShow = document.getElementById("cvsShow"),
+            ctxShow = cvsShow.getContext("2d");
 
-  html2canvas(outter,{
-    canvas: cvs,
-    onrendered: function(c){
-      // cvs.width *= 2;
-      // cvs.height *= 2;
-      // c.getContext("2d").context.scale(2,2);
-    }
-  });
+        ctxTmp.putImageData(tmpImg,0,0);
+        ctxShow.drawImage(cvsTmp,0,0);
 
+        cvsTmp = null;
+        ctxTmp = null;
+    };
 });

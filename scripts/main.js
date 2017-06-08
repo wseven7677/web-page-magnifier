@@ -4,14 +4,8 @@ require(["scripts/h2c"],function(h2c){
 
     var flag = false,
         omag = document.getElementsByClassName("tu")[0],
-        cvsTmp = document.createElement("canvas"),
-        ctxTmp = cvsTmp.getContext("2d"),
         cvsShow = document.createElement("canvas"),
         ctxShow = cvsShow.getContext("2d");
-
-
-    cvsTmp.width = 100;
-    cvsTmp.height = 80;
 
     cvsShow.width = 200;
     cvsShow.height = 160;
@@ -27,7 +21,6 @@ require(["scripts/h2c"],function(h2c){
       flag = true;
     });
     document.addEventListener("mouseup",function(event){
-      ctxTmp.clearRect(0,0,100,80);
       omag.style.display = "none";
       flag = false;
     });
@@ -35,6 +28,7 @@ require(["scripts/h2c"],function(h2c){
     document.addEventListener("mousemove",function(event){
 
       if(flag){
+        ctxShow.clearRect(0,0,100,80);
         event.preventDefault();
         event.stopPropagation();
 
@@ -42,18 +36,12 @@ require(["scripts/h2c"],function(h2c){
         omag.style.left = event.clientX - 50 + "px";
         omag.style.top = event.clientY - 120 + "px";
 
-// 计算内部canvas偏移位置：
-        var omagCvs = document.getElementById("theCvs"),
-            omagCtx = omagCvs.getContext("2d"),
-            outter = document.getElementById("outter");
-        var posx,
-            posy;
-        posx = event.clientX - outter.offsetLeft;
-        posy = event.clientY - outter.offsetTop;
 
-        var tmpImg = omagCtx.getImageData(posx-50,posy-40,100,80);
-        ctxTmp.putImageData(tmpImg,0,0);
-        ctxShow.drawImage(cvsTmp,0,0);
+// 计算内部canvas偏移：
+// canvas名字没有会自动创建，但被照相的div需要已经存在与页面中。
+        h2c("theCvs","outter",event.clientX,event.clientY);
+
+        h2c("theCvs2","outter2",event.clientX,event.clientY);
 
       }
 
