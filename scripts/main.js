@@ -1,5 +1,5 @@
 
-require(["scripts/chromeSnapShot","scripts/h2c"],function(chromeSnapShot,h2c){
+require(["scripts/h2c"],function(h2c){
 
 
     var flag = false,
@@ -40,7 +40,7 @@ require(["scripts/chromeSnapShot","scripts/h2c"],function(chromeSnapShot,h2c){
 
 // 计算外框位置：
         omag.style.left = event.clientX - 50 + "px";
-        omag.style.top = event.clientY - 90 + "px";
+        omag.style.top = event.clientY - 120 + "px";
 
 // 计算内部canvas偏移位置：
         var omagCvs = document.getElementById("theCvs"),
